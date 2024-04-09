@@ -1,3 +1,6 @@
+// Raj Keswani
+// April 8 2024
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -47,32 +50,96 @@ public class BST {
      * @return true if val is in the tree, false otherwise
      */
     public boolean search(int val) {
-        // TODO: Complete the search function
-        return false;
+        return search (root, val);
+    }
+
+    // Recursive search method
+    public boolean search(BSTNode node, int val) {
+        // Base case which is there is no node
+        if (node == null) {
+            return false;
+        }
+        // True if value matches
+        if (val == node.getVal()) {
+            return true;
+        }
+
+        // If the value is less than a node's value, it will go left
+        if (val < node.getVal()) {
+            return search(node.getLeft(), val);
+        }
+
+        // Otherwise it just goes right
+        return search(node.getRight(), val);
     }
 
     /**
      * @return ArrayList of BSTNodes in inorder
      */
     public ArrayList<BSTNode> getInorder() {
-        // TODO: Complete inorder traversal
-        return null;
+        ArrayList<BSTNode> list = new ArrayList<>();
+        getInOrder(list, root);
+        return list;
     }
+
+    // Recursive method for getting inorder
+    public void getInOrder(ArrayList<BSTNode> list, BSTNode node) {
+        // If no node, then the case is done
+        if (node == null) {
+            return;
+        }
+        // Gets farthest left for lowest value, then node, then rigth for greater values
+        // Just lowest to biggest
+        getInOrder(list, node.getLeft());
+        list.add(node);
+        getInOrder(list, node.getRight());
+    }
+
+
 
     /**
      * @return ArrayList of BSTNodes in preorder
      */
     public ArrayList<BSTNode> getPreorder() {
-        // TODO: Complete preorder traversal
-        return null;
+        ArrayList<BSTNode> list = new ArrayList<>();
+        getPreOrder(list, root);
+        return list;
+    }
+
+    // Recursive method that gets preorder
+    public void getPreOrder(ArrayList<BSTNode> list, BSTNode node) {
+        if (node == null)
+        {
+            return;
+        }
+
+        // Starts with the node, then all to the left, and all to the right
+        // Goes from top to bottom, left to right
+        list.add(node);
+        getPreOrder(list, node.getLeft());
+        getPreOrder(list, node.getRight());
     }
 
     /**
      * @return ArrayList of BSTNodes in postorder
      */
     public ArrayList<BSTNode> getPostorder() {
-        // TODO: Complete postorder traversal
-        return null;
+        ArrayList<BSTNode> list = new ArrayList<>();
+        getPostOrder(list, root);
+        return list;
+    }
+
+    // Recursive method for getting Postorder
+    public void getPostOrder(ArrayList<BSTNode> list, BSTNode node) {
+        if (node == null) {
+            return;
+        }
+
+        // Goes from bottom to top, left to right
+        // Gets values left of node, right of node, then node
+        getPostOrder(list, node.getLeft());
+        getPostOrder(list, node.getRight());
+        list.add(node);
     }
 
     /**
@@ -82,8 +149,32 @@ public class BST {
      * @param val The value ot insert
      */
     public void insert(int val) {
-        // TODO: Complete insert
+        insert(root, val);
     }
+
+    // Recursive method for adding new nodes
+    public BSTNode insert(BSTNode node, int val)
+    {
+        // Adds node when node is empty (base case)
+        if (node == null)
+        {
+            return new BSTNode(val);
+        }
+        // Goes to left of node if value is less than node
+        if (val < node.getVal())
+        {
+            node.setLeft(insert(node.getLeft(), val));
+        }
+        // Goes to right of node is value is higher than node
+        if (val > node.getVal())
+        {
+            node.setRight(insert(node.getRight(), val));
+        }
+
+        return node;
+    }
+
+
 
     /**
      * Determines if the current BST is
